@@ -373,7 +373,7 @@ const App = () => {
                 </div>
                 <div>
                   <h3 className="text-3xl font-bold text-white mb-2">Collaborative Mode</h3>
-                  <p className="text-gray-400">Play together in harmony</p>
+                  <p className="text-gray-400">Play together and connect with new users!</p>
                 </div>
               </div>
               <p className="text-gray-300 mb-6 leading-relaxed">
