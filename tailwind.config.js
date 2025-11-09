@@ -20,7 +20,7 @@ module.exports = {
 		extend: {
       fontFamily: {
         sans: ['Poppins', ...defaultTheme.fontFamily.sans],
-        serif: ['Playfair Display', ...defaultTheme.fontFamily.serif],
+        serif: ['Montserrat', ...defaultTheme.fontFamily.serif],
       },
 			colors: {
 				border: 'hsl(var(--border))',

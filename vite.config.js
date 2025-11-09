@@ -189,11 +189,66 @@ logger.error = (msg, options) => {
 	loggerError(msg, options);
 }
 
+// Plugin to ensure JSX files are served with correct MIME type
+const fixMimeTypePlugin = () => {
+	return {
+		name: 'fix-jsx-mime-type',
+		enforce: 'post',
+		configureServer(server) {
+			// Middleware to fix MIME types - intercepts responses for JSX files
+			server.middlewares.use((req, res, next) => {
+				const url = req.url || '';
+				
+				// Check if this is a JSX-related request
+				if (url.includes('.jsx') || url.match(/\/src\/.*\.jsx(\?|$|&)/) || (url.includes('?import') && url.includes('jsx'))) {
+					// Intercept setHeader calls to fix MIME type
+					const originalSetHeader = res.setHeader.bind(res);
+					res.setHeader = function(name, ...args) {
+						if (name && name.toLowerCase() === 'content-type') {
+							const value = args[0];
+							if (typeof value === 'string' && (value.includes('text/jsx') || value.includes('/jsx'))) {
+								return originalSetHeader('Content-Type', 'application/javascript; charset=utf-8');
+							}
+						}
+						return originalSetHeader(name, ...args);
+					};
+					
+					// Intercept writeHead calls to fix MIME type
+					const originalWriteHead = res.writeHead.bind(res);
+					res.writeHead = function(...args) {
+						if (args.length > 1) {
+							const headers = typeof args[1] === 'object' && !isNaN(args[0]) ? args[1] : 
+							              typeof args[2] === 'object' ? args[2] : null;
+							if (headers) {
+								const ct = headers['content-type'] || headers['Content-Type'];
+								if (ct && (ct.includes('text/jsx') || ct.includes('/jsx'))) {
+									headers['content-type'] = 'application/javascript; charset=utf-8';
+									headers['Content-Type'] = 'application/javascript; charset=utf-8';
+								}
+							}
+						}
+						return originalWriteHead(...args);
+					};
+				}
+				next();
+			});
+		},
+	};
+};
+
 export default defineConfig({
 	customLogger: logger,
 	plugins: [
+		// React plugin - transforms JSX to JS
+		// Must be listed first so it processes JSX before visual editor plugins
+		react({
+			include: '**/*.{jsx,tsx}',
+		}),
+		// Visual editor plugins (they have enforce: 'pre' but React processes first in normal phase)
 		...(isDev ? [inlineEditPlugin(), editModeDevPlugin()] : []),
-		react(),
+		// MIME type fix plugin - intercepts and fixes MIME types
+		fixMimeTypePlugin(),
+		// HTML transformation
 		addTransformIndexHtml
 	],
 	server: {
@@ -202,6 +257,9 @@ export default defineConfig({
 			'Cross-Origin-Embedder-Policy': 'credentialless',
 		},
 		allowedHosts: true,
+		fs: {
+			strict: false,
+		},
 	},
 	resolve: {
 		extensions: ['.jsx', '.js', '.tsx', '.ts', '.json', ],
