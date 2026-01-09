@@ -158,8 +158,8 @@ const handleSubmit = async (e: React.FormEvent) => {
             </div>
             <h2 className="text-4xl font-black mb-4">You're on the list!</h2>
             <p className="text-[#F2F2F2]/60 text-lg mb-8">
-              Thank you for joining. We've sent a confirmation to <span className="text-[#F2F2F2] font-bold">{savedEmail}</span>. <br />
-              Keep an eye on your inbox for your early access invitation.
+              Thank you for joining! We've added <span className="text-[#F2F2F2] font-bold">{savedEmail}</span> to our waiting list. <br />
+              We'll reach out soon with updates on your early access.
             </p>
             <div className="flex items-center justify-center gap-4">
                <div className="flex -space-x-3">
