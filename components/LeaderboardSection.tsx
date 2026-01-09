@@ -20,7 +20,7 @@ const LeaderboardSection: React.FC = () => {
         </div>
         <h2 className="text-4xl md:text-6xl font-black mb-6">Battle for the <span className="text-[#1DB954]">Top Spot</span></h2>
         <p className="text-[#F2F2F2]/60 text-lg mb-8 leading-relaxed">
-          Join a global community of musicians. Compete in weekly tournaments, earn unique achievements, and establish your legacy as a rhythm master.
+          Connect with pianists from around the world. Take part in weekly challenges, track your progress, and see how you stack up on the leaderboard.
         </p>
         
         <div className="flex gap-6">
@@ -29,7 +29,7 @@ const LeaderboardSection: React.FC = () => {
             <div className="text-xs text-[#F2F2F2]/40 uppercase tracking-widest font-bold">Active Players</div>
           </div>
           <div className="bg-[#1a1a1a] p-6 rounded-2xl flex-1 border border-white/5">
-            <div className="text-3xl font-bold mb-1">$5,000+</div>
+            <div className="text-3xl font-bold mb-1">$1,000+</div>
             <div className="text-xs text-[#F2F2F2]/40 uppercase tracking-widest font-bold">Weekly Prizes</div>
           </div>
         </div>
@@ -63,7 +63,7 @@ const LeaderboardSection: React.FC = () => {
                       {player.name}
                       {player.rank === 1 && <Medal className="w-3.5 h-3.5 text-[#FFD166]" />}
                     </div>
-                    <div className="text-[10px] text-[#F2F2F2]/40 uppercase font-bold tracking-widest">Master Class</div>
+                    <div className="text-[10px] text-[#F2F2F2]/40 uppercase font-bold tracking-widest">Legendary Pianist</div>
                   </div>
                 </div>
                 <div className="text-right">

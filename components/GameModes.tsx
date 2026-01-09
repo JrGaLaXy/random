@@ -107,12 +107,12 @@ const GameModes: React.FC<GameModesProps> = ({ onTriggerProgress }) => {
           </div>
           <h3 className="text-3xl font-black mb-4 text-[#F2F2F2]/80">Mastery Path</h3>
           <p className="text-[#F2F2F2]/40 mb-8 flex-grow">
-            Our structured curriculum takes you from basic finger placement to performing advanced concertos with confidence. Currently in development.
+            We guide you step by step, from learning your first finger placements to playing advanced concertos with confidence. This feature is still in development and still an idea we're refining. 
           </p>
           <ul className="space-y-3 mb-10 opacity-50">
             <li className="flex items-center gap-2 text-sm text-[#F2F2F2]/60">
               <div className="w-1.5 h-1.5 rounded-full bg-blue-500/50" />
-              1,000+ interactive lessons
+              500+ interactive lessons
             </li>
             <li className="flex items-center gap-2 text-sm text-[#F2F2F2]/60">
               <div className="w-1.5 h-1.5 rounded-full bg-blue-500/50" />

@@ -13,6 +13,7 @@ import LeaderboardSection from './components/LeaderboardSection';
 import WaitingList from './components/WaitingList';
 import AboutContact from './components/AboutContact';
 import Footer from './components/Footer';
+import CookieConsent from './components/CookieConsent';
 
 const Toast: React.FC<{ show: boolean; onClose: () => void }> = ({ show, onClose }) => {
   if (!show) return null;
@@ -108,6 +109,7 @@ const App: React.FC = () => {
       <Footer />
 
       <Toast show={showProgressToast} onClose={() => setShowProgressToast(false)} />
+      <CookieConsent />
     </div>
   );
 };

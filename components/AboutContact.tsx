@@ -43,10 +43,10 @@ const AboutContact: React.FC = () => {
             Our Story
           </div>
           <h2 className="text-4xl md:text-5xl font-black mb-8 text-[#F2F2F2]">
-            Two Worlds, One <span className="text-[#1DB954]">Rhythm.</span>
+            Our <span className="text-[#1DB954]">Story.</span>
           </h2>
           <p className="text-[#F2F2F2]/60 text-lg mb-12 leading-relaxed">
-            Museji started with a late-night Discord call between two developers united by a single passion: making piano practice as addictive as a rhythm game.
+            Museji began when we realized there was more potential for piano and rhythm apps than what we’d seen so far. Between us, we’ve spent countless late nights sketching ideas, experimenting, and talking about how to make piano practice fun, social, and skill-focused. What started as casual conversations soon grew into a real project
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -63,8 +63,8 @@ const AboutContact: React.FC = () => {
               <h4 className="text-xl font-bold mb-1">jrgalaxy</h4>
               <p className="text-[#1DB954] text-xs font-bold uppercase tracking-widest mb-3">Founder</p>
               <div className="mb-6">
-                <span className="inline-block px-2 py-1 rounded bg-[#1DB954]/10 text-[#1DB954] text-[10px] font-bold uppercase mb-2">Front-end supervisor</span>
-                <p className="text-[#F2F2F2]/40 text-sm">Long-time piano app moderator turned designer, bridging the gap between users and clean UI.</p>
+                <span className="inline-block px-2 py-1 rounded bg-[#1DB954]/10 text-[#1DB954] text-[10px] font-bold uppercase mb-2">Front-End / Product</span>
+                <p className="text-[#F2F2F2]/40 text-sm">I’ve been moderating piano apps for years, and now I’m channeling that experience into creating a better, more fun rhythm app.</p>
               </div>
               
               <div className="flex flex-col gap-3">
@@ -103,8 +103,8 @@ const AboutContact: React.FC = () => {
               <h4 className="text-xl font-bold mb-1">strange</h4>
               <p className="text-[#FFD166] text-xs font-bold uppercase tracking-widest mb-3">Co-Founder</p>
               <div className="mb-6">
-                <span className="inline-block px-2 py-1 rounded bg-[#FFD166]/10 text-[#FFD166] text-[10px] font-bold uppercase mb-2">Back-end Dev and Supervisor</span>
-                <p className="text-[#F2F2F2]/40 text-sm">The engineering powerhouse behind real-time audio analysis and core rhythmic interactions.</p>
+                <span className="inline-block px-2 py-1 rounded bg-[#FFD166]/10 text-[#FFD166] text-[10px] font-bold uppercase mb-2">Back-end Developerr</span>
+                <p className="text-[#F2F2F2]/40 text-sm">I make sure Museji’s rhythm and audio systems run smoothly, so every note you play feels natural, responsive, and satisfying.</p>
               </div>
 
               <div className="flex flex-col gap-3">

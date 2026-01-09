@@ -1,16 +1,64 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { CheckCircle2, Loader2, ArrowRight } from 'lucide-react';
+import CookieManager from '../utils/cookieManager';
+import SessionManager from '../utils/sessionManager';
+import CONFIG from '../utils/config';
 
 const WaitingList: React.FC = () => {
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState<'idle' | 'loading' | 'success'>('idle');
+  const [savedEmail, setSavedEmail] = useState<string | undefined>();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  useEffect(() => {
+    // Initialize session and load saved email
+    SessionManager.initializeSession();
+    const storedEmail = SessionManager.getUserEmail();
+    if (storedEmail) {
+      setSavedEmail(storedEmail);
+      setEmail(storedEmail);
+    }
+  }, []);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email) return;
+
     setStatus('loading');
-    setTimeout(() => setStatus('success'), 1500);
+
+    try {
+      // Save email to session and cookies
+      SessionManager.setUserEmail(email);
+      
+      // Store additional metadata
+      CookieManager.setCookie(
+        CONFIG.COOKIE_SETTINGS.USER_PREFERENCES,
+        JSON.stringify({
+          email,
+          joinedAt: new Date().toISOString(),
+          source: 'waiting-list',
+        }),
+        {
+          maxAge: CONFIG.COOKIE_EXPIRY.LONG_TERM,
+          secure: CONFIG.SECURITY.ENABLE_HTTPS,
+          sameSite: 'Lax',
+        }
+      );
+
+      // Simulate API call
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+
+      setSavedEmail(email);
+      setStatus('success');
+
+      // Track event for analytics if enabled
+      if (CONFIG.FEATURES.ENABLE_ANALYTICS) {
+        console.log('[Analytics] User joined waiting list:', email);
+      }
+    } catch (error) {
+      console.error('Error joining waiting list:', error);
+      setStatus('idle');
+    }
   };
 
   return (
@@ -18,9 +66,9 @@ const WaitingList: React.FC = () => {
       <div className="bg-[#1a1a1a] rounded-[3rem] p-12 md:p-20 border border-white/5 text-center relative">
         {status !== 'success' ? (
           <>
-            <h2 className="text-4xl md:text-6xl font-black mb-6">Ready to find your <span className="text-[#1DB954]">Muse?</span></h2>
+            <h2 className="text-4xl md:text-6xl font-black mb-6">Join the early access of <span className="text-[#1DB954]">Museji</span></h2>
             <p className="text-[#F2F2F2]/60 text-lg mb-12 max-w-xl mx-auto">
-              We're launching soon. Join 10,000+ early adopters and be the first to experience the future of piano learning.
+              Museji is still in the works. Sign up to get early access and follow the project as it grows!
             </p>
             
             <form onSubmit={handleSubmit} className="relative max-w-md mx-auto">
@@ -54,7 +102,7 @@ const WaitingList: React.FC = () => {
             </div>
             <h2 className="text-4xl font-black mb-4">You're on the list!</h2>
             <p className="text-[#F2F2F2]/60 text-lg mb-8">
-              Thank you for joining. We've sent a confirmation to <span className="text-[#F2F2F2] font-bold">{email}</span>. <br />
+              Thank you for joining. We've sent a confirmation to <span className="text-[#F2F2F2] font-bold">{savedEmail}</span>. <br />
               Keep an eye on your inbox for your early access invitation.
             </p>
             <div className="flex items-center justify-center gap-4">
