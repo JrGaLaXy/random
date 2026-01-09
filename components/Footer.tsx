@@ -15,7 +15,7 @@ const Footer: React.FC = () => {
               <span className="text-xl font-extrabold tracking-tight text-[#F2F2F2]">MUSEJI</span>
             </div>
             <p className="text-[#F2F2F2]/40 text-sm leading-relaxed mb-8 max-w-xs">
-              The revolutionary piano rhythm app powered by AI and community. Master the keys from anywhere in the world.
+              Where pianists connect, compete, and grow together. Master the keys and join our global community of musicians.
             </p>
             <div className="flex gap-4">
               <a href="#" className="p-2 bg-white/5 rounded-lg hover:bg-[#1DB954] hover:text-white transition-all text-[#F2F2F2]/50"><Twitter className="w-5 h-5" /></a>

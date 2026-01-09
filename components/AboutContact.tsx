@@ -110,15 +110,13 @@ const AboutContact: React.FC = () => {
               <div className="flex flex-col gap-3">
                 <div className="text-[10px] font-bold text-[#F2F2F2]/20 uppercase tracking-widest">Connect</div>
                 <div className="flex gap-3">
-                  <a 
-                    href="https://discord.gg/hYY4njN23b"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <button 
+                    onClick={() => copyToClipboard('807936284177203221', 'strange Discord')}
                     className="w-12 h-12 rounded-xl bg-white/5 flex items-center justify-center hover:bg-[#FFD166] hover:text-[#121212] text-[#FFD166] transition-all group/btn"
-                    title="Connect on Discord"
+                    title="Copy Discord ID: 807936284177203221"
                   >
                     <MessageCircle className="w-6 h-6 group-hover/btn:scale-110 transition-transform" />
-                  </a>
+                  </button>
                   <a 
                     href="https://github.com/sarankstrange4" 
                     target="_blank" 
