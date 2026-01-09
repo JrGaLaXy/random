@@ -4,6 +4,7 @@ import { CheckCircle2, Loader2, ArrowRight } from 'lucide-react';
 import CookieManager from '../utils/cookieManager';
 import SessionManager from '../utils/sessionManager';
 import CONFIG from '../utils/config';
+import { supabase } from '../utils/supabaseClient';
 
 const WaitingList: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -20,46 +21,62 @@ const WaitingList: React.FC = () => {
     }
   }, []);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!email) return;
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  if (!email) return;
 
-    setStatus('loading');
+  setStatus('loading');
 
-    try {
-      // Save email to session and cookies
-      SessionManager.setUserEmail(email);
-      
-      // Store additional metadata
-      CookieManager.setCookie(
-        CONFIG.COOKIE_SETTINGS.USER_PREFERENCES,
-        JSON.stringify({
-          email,
-          joinedAt: new Date().toISOString(),
-          source: 'waiting-list',
-        }),
-        {
-          maxAge: CONFIG.COOKIE_EXPIRY.LONG_TERM,
-          secure: CONFIG.SECURITY.ENABLE_HTTPS,
-          sameSite: 'Lax',
-        }
-      );
+  try {
+    // Check if email already exists in Supabase
+    const { data: existing, error: checkError } = await supabase
+      .from('waiting_list')
+      .select('email')
+      .eq('email', email)
+      .single();
 
-      // Simulate API call
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-
-      setSavedEmail(email);
-      setStatus('success');
-
-      // Track event for analytics if enabled
-      if (CONFIG.FEATURES.ENABLE_ANALYTICS) {
-        console.log('[Analytics] User joined waiting list:', email);
-      }
-    } catch (error) {
-      console.error('Error joining waiting list:', error);
-      setStatus('idle');
+    if (checkError && checkError.code !== 'PGRST116') {
+      throw checkError; // unexpected error
     }
-  };
+
+    if (!existing) {
+      // Insert new email into Supabase
+      const { data, error } = await supabase
+        .from('waiting_list')
+        .insert([{ email, joined_at: new Date(), source: 'waiting-list' }]);
+
+      if (error) throw error;
+    }
+
+    // Save email to session and cookies
+    SessionManager.setUserEmail(email);
+    CookieManager.setCookie(
+      CONFIG.COOKIE_SETTINGS.USER_PREFERENCES,
+      JSON.stringify({
+        email,
+        joinedAt: new Date().toISOString(),
+        source: 'waiting-list',
+      }),
+      {
+        maxAge: CONFIG.COOKIE_EXPIRY.LONG_TERM,
+        secure: CONFIG.SECURITY.ENABLE_HTTPS,
+        sameSite: 'Lax',
+      }
+    );
+
+    // Track event for analytics if enabled
+    if (CONFIG.FEATURES.ENABLE_ANALYTICS) {
+      console.log('[Analytics] User joined waiting list:', email);
+    }
+
+    setSavedEmail(email);
+    setStatus('success');
+
+  } catch (error) {
+    console.error('Error joining waiting list:', error);
+    setStatus('idle');
+  }
+};
 
   return (
     <div className="max-w-4xl mx-auto px-6">
