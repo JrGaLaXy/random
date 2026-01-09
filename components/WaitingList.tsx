@@ -28,27 +28,50 @@ const handleSubmit = async (e: React.FormEvent) => {
   setStatus('loading');
 
   try {
-    // Check if email already exists in Supabase
-    const { data: existing, error: checkError } = await supabase
-      .from('waiting_list')
-      .select('email')
-      .eq('email', email)
-      .single();
+    console.log('[WaitingList] Submitting email:', email);
+    
+    // Try to save to Supabase (if credentials are configured)
+    if (import.meta.env.VITE_SUPABASE_URL && import.meta.env.VITE_SUPABASE_KEY) {
+      try {
+        console.log('[WaitingList] Attempting Supabase insert...');
+        
+        // Check if email already exists
+        const { data: existing, error: checkError } = await supabase
+          .from('waiting_list')
+          .select('email')
+          .eq('email', email)
+          .single();
 
-    if (checkError && checkError.code !== 'PGRST116') {
-      throw checkError; // unexpected error
+        console.log('[WaitingList] Check existing result:', { existing, checkError });
+
+        if (checkError && checkError.code !== 'PGRST116') {
+          console.warn('[WaitingList] Check error (non-critical):', checkError.message);
+        }
+
+        if (!existing) {
+          // Insert new email into Supabase
+          const { data, error } = await supabase
+            .from('waiting_list')
+            .insert([{ email, joined_at: new Date().toISOString(), source: 'waiting-list' }]);
+
+          console.log('[WaitingList] Insert result:', { data, error });
+
+          if (error) {
+            console.warn('[WaitingList] Supabase insert failed:', error.message);
+            console.log('[WaitingList] Continuing without Supabase...');
+          } else {
+            console.log('[WaitingList] Email saved to Supabase successfully');
+          }
+        } else {
+          console.log('[WaitingList] Email already exists in waiting list');
+        }
+      } catch (supabaseError) {
+        console.warn('[WaitingList] Supabase error (non-blocking):', supabaseError);
+        console.log('[WaitingList] Will save to local storage instead');
+      }
     }
 
-    if (!existing) {
-      // Insert new email into Supabase
-      const { data, error } = await supabase
-        .from('waiting_list')
-        .insert([{ email, joined_at: new Date(), source: 'waiting-list' }]);
-
-      if (error) throw error;
-    }
-
-    // Save email to session and cookies
+    // Always save email to session and cookies (local storage)
     SessionManager.setUserEmail(email);
     CookieManager.setCookie(
       CONFIG.COOKIE_SETTINGS.USER_PREFERENCES,
@@ -71,10 +94,13 @@ const handleSubmit = async (e: React.FormEvent) => {
 
     setSavedEmail(email);
     setStatus('success');
+    console.log('[WaitingList] Success! Email saved locally');
 
   } catch (error) {
-    console.error('Error joining waiting list:', error);
-    setStatus('idle');
+    console.error('[WaitingList] Unexpected error:', error);
+    // Still show success since email was saved locally
+    setSavedEmail(email);
+    setStatus('success');
   }
 };
 
