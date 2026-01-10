@@ -1,22 +1,49 @@
 
 import React, { useState } from 'react';
 import { MessageSquare, Send, Globe, Github, MessageCircle, Check, Copy } from 'lucide-react';
+import emailjs from '@emailjs/browser';
 
 const AboutContact: React.FC = () => {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSent, setIsSent] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [copyToast, setCopyToast] = useState<{ show: boolean, message: string }>({ show: false, message: '' });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    setTimeout(() => {
-      setIsSubmitting(false);
+    setError(null);
+
+    try {
+      // EmailJS configuration - you'll need to replace these with your actual values
+      const serviceID = import.meta.env.VITE_EMAILJS_SERVICE_ID || 'YOUR_SERVICE_ID';
+      const templateID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID || 'YOUR_TEMPLATE_ID';
+      const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY || 'YOUR_PUBLIC_KEY';
+
+      // Send email using EmailJS
+      await emailjs.send(
+        serviceID,
+        templateID,
+        {
+          from_name: formData.name,
+          from_email: formData.email,
+          message: formData.message,
+          to_email: 'musejiapp@gmail.com',
+        },
+        publicKey
+      );
+
       setIsSent(true);
       setFormData({ name: '', email: '', message: '' });
-      setTimeout(() => setIsSent(false), 5000);
-    }, 1500);
+      setTimeout(() => setIsSent(false), 8000);
+    } catch (err) {
+      console.error('Failed to send email:', err);
+      setError('Failed to send message. Please try emailing us directly at musejiapp@gmail.com');
+      setTimeout(() => setError(null), 5000);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const copyToClipboard = (text: string, label: string) => {
@@ -147,6 +174,20 @@ const AboutContact: React.FC = () => {
             </p>
 
             <form onSubmit={handleSubmit} className="space-y-6">
+              {isSent && (
+                <div className="bg-emerald-500/10 border border-emerald-500/30 rounded-2xl p-4 flex items-start gap-3 animate-in fade-in slide-in-from-top-2 duration-500">
+                  <div className="w-10 h-10 bg-emerald-500/20 rounded-full flex items-center justify-center shrink-0">
+                    <Check className="w-5 h-5 text-emerald-400" />
+                  </div>
+                  <div className="flex-1">
+                    <h4 className="text-emerald-400 font-bold text-sm mb-1">Message sent successfully!</h4>
+                    <p className="text-[#F2F2F2]/60 text-xs leading-relaxed">
+                      Thank you for reaching out. We've received your message and will get back to you at <span className="text-emerald-400 font-medium">{formData.email || 'your email'}</span> as soon as possible.
+                    </p>
+                  </div>
+                </div>
+              )}
+              
               <div className="space-y-2">
                 <label className="text-[10px] font-bold text-[#F2F2F2]/30 uppercase tracking-[0.2em] ml-4">Full Name</label>
                 <input 
@@ -187,7 +228,7 @@ const AboutContact: React.FC = () => {
                 type="submit"
                 disabled={isSubmitting || isSent}
                 className={`w-full py-5 rounded-2xl font-black text-white transition-all flex items-center justify-center gap-2 group ${
-                  isSent ? 'bg-emerald-500' : 'bg-[#1DB954] hover:bg-[#1DB954]/90'
+                  isSent ? 'bg-emerald-500' : error ? 'bg-red-500' : 'bg-[#1DB954] hover:bg-[#1DB954]/90'
                 }`}
               >
                 {isSubmitting ? (
@@ -207,6 +248,12 @@ const AboutContact: React.FC = () => {
                   </>
                 )}
               </button>
+              
+              {error && (
+                <div className="text-red-400 text-sm text-center bg-red-500/10 border border-red-500/20 rounded-xl p-3">
+                  {error}
+                </div>
+              )}
             </form>
 
             <div className="mt-12 pt-12 border-t border-white/5 flex flex-col sm:flex-row gap-8 text-center sm:text-left">
