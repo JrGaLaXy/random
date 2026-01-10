@@ -1,12 +1,13 @@
 
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { Piano, Twitter, Github, Instagram, Youtube } from 'lucide-react';
 
 const Footer: React.FC = () => {
   return (
     <footer className="bg-[#121212] pt-24 pb-12 px-6 border-t border-white/5">
       <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-12 mb-20">
+        <div className="grid grid-cols-2 md:grid-cols-5 lg:grid-cols-6 gap-12 mb-20">
           <div className="col-span-2 lg:col-span-2">
             <div className="flex items-center gap-2 mb-6">
               <div className="w-10 h-10 bg-[#1DB954] rounded-xl flex items-center justify-center">
@@ -35,29 +36,28 @@ const Footer: React.FC = () => {
           </div>
 
           <div>
-            <h4 className="font-bold mb-6 text-sm uppercase tracking-widest text-white">Modes</h4>
+            <h4 className="font-bold mb-6 text-sm uppercase tracking-widest text-white">Company</h4>
             <ul className="space-y-4">
-              <li><a href="#modes" className="text-sm text-[#F2F2F2]/40 hover:text-[#1DB954] transition-colors">Versus</a></li>
-              <li><a href="#modes" className="text-sm text-[#F2F2F2]/40 hover:text-[#1DB954] transition-colors">Play Together</a></li>
-              <li><a href="#modes" className="text-sm text-[#F2F2F2]/40 hover:text-[#1DB954] transition-colors">Community Tab</a></li>
+              <li><a href="#about" className="text-sm text-[#F2F2F2]/40 hover:text-[#1DB954] transition-colors">Who We Are</a></li>
+              <li><a href="#about" className="text-sm text-[#F2F2F2]/40 hover:text-[#1DB954] transition-colors">Contact Us</a></li>
+              <li><a href="#" className="text-sm text-[#F2F2F2]/40 hover:text-[#1DB954] transition-colors">Careers</a></li>
             </ul>
           </div>
 
           <div>
             <h4 className="font-bold mb-6 text-sm uppercase tracking-widest text-white">Support</h4>
             <ul className="space-y-4">
-              <li><a href="#about" className="text-sm text-[#F2F2F2]/40 hover:text-[#1DB954] transition-colors">Contact Us</a></li>
               <li><a href="#" className="text-sm text-[#F2F2F2]/40 hover:text-[#1DB954] transition-colors">MIDI Setup</a></li>
               <li><a href="#" className="text-sm text-[#F2F2F2]/40 hover:text-[#1DB954] transition-colors">Safety</a></li>
+              <li><a href="#" className="text-sm text-[#F2F2F2]/40 hover:text-[#1DB954] transition-colors">FAQ</a></li>
             </ul>
           </div>
 
           <div>
-            <h4 className="font-bold mb-6 text-sm uppercase tracking-widest text-white">Company</h4>
+            <h4 className="font-bold mb-6 text-sm uppercase tracking-widest text-white">Legal</h4>
             <ul className="space-y-4">
-              <li><a href="#about" className="text-sm text-[#F2F2F2]/40 hover:text-[#1DB954] transition-colors">Who We Are</a></li>
-              <li><a href="#" className="text-sm text-[#F2F2F2]/40 hover:text-[#1DB954] transition-colors">Careers</a></li>
-              <li><a href="#" className="text-sm text-[#F2F2F2]/40 hover:text-[#1DB954] transition-colors">Privacy</a></li>
+              <li><Link to="/privacy-policy" className="text-sm text-[#F2F2F2]/40 hover:text-[#1DB954] transition-colors">Privacy Policy</Link></li>
+              <li><Link to="/terms-of-service" className="text-sm text-[#F2F2F2]/40 hover:text-[#1DB954] transition-colors">Terms of Service</Link></li>
             </ul>
           </div>
         </div>
