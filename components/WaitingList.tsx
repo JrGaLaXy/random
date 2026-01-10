@@ -12,24 +12,60 @@ const WaitingList: React.FC = () => {
   const [savedEmail, setSavedEmail] = useState<string | undefined>();
   const [errorMessage, setErrorMessage] = useState('');
 
-  // Common disposable email domains
-  const disposableDomains = [
-    '10minutemail.com', '10minutemail.net', '10minutemail.org', '10minemail.com',
-    '10minutesemail.com', '20minutemail.com', '30minutemail.com',
-    'guerrillamail.com', 'guerrillamail.net', 'guerrillamail.org',
-    'mailinator.com', 'mailinator.net', 'mailinator2.com',
-    'tempmail.com', 'temp-mail.org', 'tempmail.net',
-    'throwaway.email', 'getnada.com', 'maildrop.cc',
-    'fakeinbox.com', 'trashmail.com', 'yopmail.com', 'disposablemail.com',
-    'sharklasers.com', 'grr.la', 'guerrillamailblock.com', 'pokemail.net',
-    'spam4.me', 'emailondeck.com', 'mintemail.com', 'mytemp.email',
-    'fxavaj.com', 'doanart.com', 'zetmail.com', 'inboxbear.com',
-    'mohmal.com', 'trbvm.com', 'emailfake.com', 'mfsa.ru',
-    'tmails.net', 'anonaddy.me', 'bugfoo.com', 'dispostable.com',
-    'spambox.us', 'tempinbox.com', 'throwawayemail.com', 'getairmail.com',
-    'harakirimail.com', 'mailin8r.com', 'mailnesia.com', 'mailsac.com',
-    'trashmail.de', 'wegwerfmail.de', 'spambog.com', 'incognitomail.org'
-  ];
+  // Function to detect suspicious/disposable email patterns
+  const isSuspiciousEmail = (email: string): boolean => {
+    const domain = email.split('@')[1]?.toLowerCase();
+    if (!domain) return false;
+
+    // Extract the main domain without TLD
+    const domainParts = domain.split('.');
+    const mainDomain = domainParts[0];
+
+    // 1. Check if domain is too short (< 5 characters before TLD)
+    if (mainDomain.length < 5) {
+      return true;
+    }
+
+    // 2. Check for domains with no vowels (likely random)
+    const vowels = /[aeiou]/i;
+    if (!vowels.test(mainDomain)) {
+      return true;
+    }
+
+    // 3. Check consonant-to-vowel ratio (too many consonants = suspicious)
+    const consonants = mainDomain.match(/[bcdfghjklmnpqrstvwxyz]/gi) || [];
+    const vowelMatches = mainDomain.match(/[aeiou]/gi) || [];
+    const consonantRatio = consonants.length / mainDomain.length;
+    
+    if (consonantRatio > 0.7) { // More than 70% consonants
+      return true;
+    }
+
+    // 4. Check for common temp email keywords
+    const tempKeywords = [
+      'temp', 'fake', 'trash', 'disposable', 'throwaway', 'guerrilla',
+      'mailinator', 'minute', 'inbox', 'spam', 'burner', 'discard',
+      'temp-mail', 'yopmail', 'maildrop', 'getairmail'
+    ];
+    
+    if (tempKeywords.some(keyword => domain.includes(keyword))) {
+      return true;
+    }
+
+    // 5. Check for random character patterns (e.g., "fxavaj", "trbvm")
+    // If domain has 3+ consecutive consonants, likely random
+    const consecutiveConsonants = /[bcdfghjklmnpqrstvwxyz]{3,}/i;
+    if (consecutiveConsonants.test(mainDomain)) {
+      return true;
+    }
+
+    // 6. Very short total domain length (domain + TLD < 8 chars total is suspicious)
+    if (domain.length < 8) {
+      return true;
+    }
+
+    return false;
+  };
 
   useEffect(() => {
     // Initialize session and load saved email
@@ -46,11 +82,10 @@ const handleSubmit = async (e: React.FormEvent) => {
   e.preventDefault();
   if (!email) return;
 
-  // Check if email is from a disposable domain
-  const emailDomain = email.split('@')[1]?.toLowerCase();
-  if (emailDomain && disposableDomains.includes(emailDomain)) {
+  // Check if email matches suspicious patterns
+  if (isSuspiciousEmail(email)) {
     setStatus('error');
-    setErrorMessage('Please use a permanent email address. Temporary emails are not allowed.');
+    setErrorMessage('Please use a permanent email address. Temporary or suspicious email addresses are not allowed.');
     return;
   }
 
