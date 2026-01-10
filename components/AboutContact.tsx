@@ -212,7 +212,7 @@ const AboutContact: React.FC = () => {
             <div className="mt-12 pt-12 border-t border-white/5 flex flex-col sm:flex-row gap-8 text-center sm:text-left">
               <div>
                 <div className="text-[10px] font-bold text-[#F2F2F2]/30 uppercase tracking-widest mb-2">Direct Email</div>
-                <a href="mailto:museji@gmail.com" className="text-sm font-medium hover:text-[#1DB954] transition-colors">museji@gmail.com</a>
+                <a href="mailto:museji@gmail.com" className="text-sm font-medium hover:text-[#1DB954] transition-colors">musejiapp@gmail.com</a>
               </div>
               <div>
                 <div className="text-[10px] font-bold text-[#F2F2F2]/30 uppercase tracking-widest mb-2">Join Community</div>

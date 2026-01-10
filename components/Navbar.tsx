@@ -129,7 +129,8 @@ const Navbar: React.FC = () => {
           <div className="h-6 w-[1px] bg-white/10 mx-2" />
 
           <a 
-            href="#signup"
+            href={location.pathname === '/' ? '#signup' : '/'}
+            onClick={(e) => handleHashClick(e, '#signup')}
             className="bg-[#1DB954] hover:bg-[#1DB954]/90 text-white px-6 py-3 rounded-full text-sm font-bold transition-all shadow-lg shadow-[#1DB954]/20 hover:scale-105 active:scale-95"
           >
             Get Started
@@ -187,8 +188,11 @@ const Navbar: React.FC = () => {
           </a>
 
           <a 
-            href="#signup"
-            onClick={handleNavClick}
+            href={location.pathname === '/' ? '#signup' : '/'}
+            onClick={(e) => {
+              handleHashClick(e, '#signup');
+              handleNavClick();
+            }}
             className="w-full py-4 rounded-xl bg-[#1DB954] text-white text-center font-bold"
           >
             Join Waiting List

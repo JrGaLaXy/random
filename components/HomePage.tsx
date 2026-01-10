@@ -70,6 +70,11 @@ const HomePage: React.FC = () => {
       <main>
         <Hero />
         
+        <section id="signup" className="py-32 relative overflow-hidden">
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-[#1DB954]/10 blur-[120px] rounded-full -z-10" />
+          <WaitingList />
+        </section>
+        
         <section id="features" className="py-24 px-6 md:px-12 max-w-7xl mx-auto">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-5xl font-bold mb-4 text-[#F2F2F2]">Elevate Your Playing</h2>
@@ -99,11 +104,6 @@ const HomePage: React.FC = () => {
         </section>
 
         <AboutContact />
-
-        <section id="signup" className="py-32 relative overflow-hidden">
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-[#1DB954]/10 blur-[120px] rounded-full -z-10" />
-          <WaitingList />
-        </section>
       </main>
       <Footer />
 
