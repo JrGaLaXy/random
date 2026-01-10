@@ -63,12 +63,18 @@ const handleSubmit = async (e: React.FormEvent) => {
           console.log('[WaitingList] Step 2 Result - data:', data, 'error:', error);
 
           if (error) {
-            console.error('[WaitingList] Insert error details:', {
-              message: error.message,
-              code: error.code,
-              details: error.details,
-              hint: error.hint,
-            });
+            // Check if it's a duplicate email error (23505 = unique_violation)
+            if (error.code === '23505') {
+              console.log('[WaitingList] Email already exists (caught duplicate error)');
+              // Email already exists, continue to success
+            } else {
+              console.error('[WaitingList] Insert error details:', {
+                message: error.message,
+                code: error.code,
+                details: error.details,
+                hint: error.hint,
+              });
+            }
           } else {
             console.log('[WaitingList] ✅ Email successfully inserted into Supabase!');
           }
