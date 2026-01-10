@@ -42,7 +42,9 @@ const PrivacyPolicyPage: React.FC = () => {
           <div>
             <h4 className="text-[#1DB954] font-bold mb-2">Personal Data</h4>
             <ul className="list-disc list-inside space-y-1 text-[#F2F2F2]/70 text-sm">
-              <li>Email address (for waiting list)</li>
+              <li>Email address (collected through waiting list and contact form)</li>
+              <li>Name (collected through contact form)</li>
+              <li>Message content (collected through contact form)</li>
               <li>Usage data and analytics</li>
             </ul>
           </div>
@@ -80,6 +82,10 @@ const PrivacyPolicyPage: React.FC = () => {
           </li>
           <li className="flex gap-3">
             <span className="text-[#1DB954]">•</span>
+            <span>To respond to your inquiries: To respond to your questions, comments, or support requests submitted through our contact form</span>
+          </li>
+          <li className="flex gap-3">
+            <span className="text-[#1DB954]">•</span>
             <span>To analyze usage trends and improve our services</span>
           </li>
         </ul>
@@ -95,6 +101,20 @@ const PrivacyPolicyPage: React.FC = () => {
           </p>
           <p>
             You can unsubscribe anytime by clicking the unsubscribe link in any email or contacting us at <span className="text-[#1DB954] font-medium">musejiapp@gmail.com</span>.
+          </p>
+        </div>
+      ),
+    },
+    {
+      id: 'contact-form',
+      title: 'Contact Form',
+      content: (
+        <div className="space-y-3 text-[#F2F2F2]/80 text-sm">
+          <p>
+            When you use our "Get in Touch" contact form, we collect your name, email address, and the message you send. This information is used solely to respond to your inquiry and is not shared with third parties.
+          </p>
+          <p>
+            We retain contact form submissions for as long as necessary to respond to your inquiry and for record-keeping purposes.
           </p>
         </div>
       ),
