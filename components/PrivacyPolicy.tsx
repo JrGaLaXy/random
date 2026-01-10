@@ -35,26 +35,6 @@ const PrivacyPolicyPage: React.FC = () => {
       ),
     },
     {
-      id: 'definitions',
-      title: 'Key Definitions',
-      content: (
-        <div className="space-y-3">
-          {[
-            { term: 'Company', def: 'Museji' },
-            { term: 'Service', def: 'The Website and related services' },
-            { term: 'Personal Data', def: 'Any information that relates to an identified or identifiable individual' },
-            { term: 'Service Provider', def: 'Third-party companies (like Supabase) who process data on our behalf' },
-            { term: 'Country', def: 'Italy' },
-          ].map((item, idx) => (
-            <div key={idx} className="flex gap-4">
-              <span className="text-[#1DB954] font-bold whitespace-nowrap">{item.term}</span>
-              <span className="text-[#F2F2F2]/70">{item.def}</span>
-            </div>
-          ))}
-        </div>
-      ),
-    },
-    {
       id: 'data-collection',
       title: 'What Data We Collect',
       content: (
@@ -219,13 +199,34 @@ const PrivacyPolicyPage: React.FC = () => {
         </div>
       ),
     },
+    {
+      id: 'glossary',
+      title: 'Glossary of Terms',
+      content: (
+        <div className="space-y-3">
+          {[
+            { term: 'Company', def: 'Museji - Our piano learning platform' },
+            { term: 'Service', def: 'The Museji website and all related services' },
+            { term: 'Personal Data', def: 'Information that identifies or can identify you, such as your email address' },
+            { term: 'Service Provider', def: 'Third-party companies (like Supabase) who help us operate our service securely' },
+            { term: 'Usage Data', def: 'Information automatically collected about how you interact with our service' },
+            { term: 'Country', def: 'Italy, where Museji is based' },
+          ].map((item, idx) => (
+            <div key={idx} className="bg-[#1DB954]/5 border border-[#1DB954]/20 rounded-lg p-4">
+              <p className="text-[#1DB954] font-bold text-sm mb-1">{item.term}</p>
+              <p className="text-[#F2F2F2]/70 text-sm">{item.def}</p>
+            </div>
+          ))}
+        </div>
+      ),
+    },
   ];
 
   return (
     <div className="min-h-screen selection:bg-[#1DB954] selection:text-white bg-[#121212]">
       <Navbar />
       <main>
-        <div className="max-w-3xl mx-auto px-6 md:px-12 py-20">
+        <div className="max-w-3xl mx-auto px-6 md:px-12 py-20 mt-20">
           {/* Header */}
           <div className="mb-20 text-center">
             <h1 className="text-5xl md:text-6xl font-black mb-4">Privacy Policy</h1>

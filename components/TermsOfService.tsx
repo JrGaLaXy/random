@@ -136,7 +136,7 @@ const TermsOfServicePage: React.FC = () => {
     <div className="min-h-screen selection:bg-[#1DB954] selection:text-white bg-[#121212]">
       <Navbar />
       <main>
-        <div className="max-w-3xl mx-auto px-6 md:px-12 py-20">
+        <div className="max-w-3xl mx-auto px-6 md:px-12 py-20 mt-20">
           {/* Header */}
           <div className="mb-20 text-center">
             <h1 className="text-5xl md:text-6xl font-black mb-4">Terms of Service</h1>
