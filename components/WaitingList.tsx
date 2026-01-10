@@ -17,7 +17,8 @@ const WaitingList: React.FC = () => {
     const storedEmail = SessionManager.getUserEmail();
     if (storedEmail) {
       setSavedEmail(storedEmail);
-      setEmail(storedEmail);
+      // Don't pre-fill the input - keep it empty
+      // setEmail(storedEmail);
     }
   }, []);
 
