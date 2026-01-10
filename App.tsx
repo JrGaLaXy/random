@@ -75,7 +75,7 @@ const App: React.FC = () => {
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-5xl font-bold mb-4 text-[#F2F2F2]">Elevate Your Playing</h2>
             <p className="text-[#F2F2F2]/60 text-lg max-w-2xl mx-auto">
-              Museji combines cutting-edge AI with traditional rhythm gaming to create the ultimate piano learning experience.
+              Learn piano the way you actually want to, where AI adapts to your level and rhythm-based challenges make every session feel like a game worth playing.            
             </p>
           </div>
           <FeaturesGrid />

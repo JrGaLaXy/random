@@ -105,6 +105,7 @@ const handleSubmit = async (e: React.FormEvent) => {
     }
 
     setSavedEmail(email);
+    setEmail(''); // Clear the input field after successful submission
     setStatus('success');
     console.log('[WaitingList] ===== SUBMISSION SUCCESS =====');
 

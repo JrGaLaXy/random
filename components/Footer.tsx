@@ -15,7 +15,7 @@ const Footer: React.FC = () => {
               <span className="text-xl font-extrabold tracking-tight text-[#F2F2F2]">MUSEJI</span>
             </div>
             <p className="text-[#F2F2F2]/40 text-sm leading-relaxed mb-8 max-w-xs">
-              Where pianists connect, compete, and grow together. Master the keys and join our global community of musicians.
+              Where pianists connect, compete, and grow together. Master the skill and join our global community of musicians.
             </p>
             <div className="flex gap-4">
               <a href="#" className="p-2 bg-white/5 rounded-lg hover:bg-[#1DB954] hover:text-white transition-all text-[#F2F2F2]/50"><Twitter className="w-5 h-5" /></a>
@@ -39,7 +39,7 @@ const Footer: React.FC = () => {
             <ul className="space-y-4">
               <li><a href="#modes" className="text-sm text-[#F2F2F2]/40 hover:text-[#1DB954] transition-colors">Versus</a></li>
               <li><a href="#modes" className="text-sm text-[#F2F2F2]/40 hover:text-[#1DB954] transition-colors">Play Together</a></li>
-              <li><a href="#modes" className="text-sm text-[#F2F2F2]/40 hover:text-[#1DB954] transition-colors">Community Jam</a></li>
+              <li><a href="#modes" className="text-sm text-[#F2F2F2]/40 hover:text-[#1DB954] transition-colors">Community Tab</a></li>
             </ul>
           </div>
 
