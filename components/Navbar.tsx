@@ -1,10 +1,12 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Piano, Menu, X, MessageCircle, ExternalLink } from 'lucide-react';
 
 const Navbar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
   const location = useLocation();
 
   const navLinks = [
@@ -14,6 +16,31 @@ const Navbar: React.FC = () => {
     { name: 'About', href: '#about' },
     { name: 'Updates', href: '/updates', isRoute: true },
   ];
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      
+      // Show navbar when at top
+      if (currentScrollY < 10) {
+        setIsVisible(true);
+      } 
+      // Show navbar when scrolling up
+      else if (currentScrollY < lastScrollY) {
+        setIsVisible(true);
+      } 
+      // Hide navbar when scrolling down
+      else if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        setIsVisible(false);
+        setIsMenuOpen(false); // Close mobile menu when hiding
+      }
+      
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [lastScrollY]);
 
   const handleNavClick = () => {
     setIsMenuOpen(false);
@@ -45,7 +72,9 @@ const Navbar: React.FC = () => {
   };
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-[60] bg-[#121212]/80 backdrop-blur-xl border-b border-white/5">
+    <nav className={`fixed top-0 left-0 right-0 z-[70] bg-[#121212] border-b border-white/5 transition-transform duration-300 ${
+      isVisible ? 'translate-y-0' : '-translate-y-full'
+    }`}>
       {/* Top Announcement Bar for Discord */}
       <a 
         href="https://discord.gg/hYY4njN23b" 
@@ -118,7 +147,7 @@ const Navbar: React.FC = () => {
 
       {/* Mobile Menu Overlay */}
       <div 
-        className={`md:hidden absolute top-20 left-0 right-0 bg-[#1a1a1a] border-b border-white/5 shadow-2xl transition-all duration-300 ease-in-out ${
+        className={`md:hidden absolute top-full left-0 right-0 bg-[#121212] border-b border-white/5 shadow-2xl transition-all duration-300 ease-in-out ${
           isMenuOpen ? 'max-h-[500px] opacity-100' : 'max-h-0 opacity-0 overflow-hidden'
         }`}
       >
