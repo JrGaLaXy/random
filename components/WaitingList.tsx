@@ -8,64 +8,8 @@ import { supabase } from '../utils/supabaseClient';
 
 const WaitingList: React.FC = () => {
   const [email, setEmail] = useState('');
-  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success'>('idle');
   const [savedEmail, setSavedEmail] = useState<string | undefined>();
-  const [errorMessage, setErrorMessage] = useState('');
-
-  // Function to detect suspicious/disposable email patterns
-  const isSuspiciousEmail = (email: string): boolean => {
-    const domain = email.split('@')[1]?.toLowerCase();
-    if (!domain) return false;
-
-    // Extract the main domain without TLD
-    const domainParts = domain.split('.');
-    const mainDomain = domainParts[0];
-
-    // 1. Check if domain is too short (< 5 characters before TLD)
-    if (mainDomain.length < 5) {
-      return true;
-    }
-
-    // 2. Check for domains with no vowels (likely random)
-    const vowels = /[aeiou]/i;
-    if (!vowels.test(mainDomain)) {
-      return true;
-    }
-
-    // 3. Check consonant-to-vowel ratio (too many consonants = suspicious)
-    const consonants = mainDomain.match(/[bcdfghjklmnpqrstvwxyz]/gi) || [];
-    const vowelMatches = mainDomain.match(/[aeiou]/gi) || [];
-    const consonantRatio = consonants.length / mainDomain.length;
-    
-    if (consonantRatio > 0.7) { // More than 70% consonants
-      return true;
-    }
-
-    // 4. Check for common temp email keywords
-    const tempKeywords = [
-      'temp', 'fake', 'trash', 'disposable', 'throwaway', 'guerrilla',
-      'mailinator', 'minute', 'inbox', 'spam', 'burner', 'discard',
-      'temp-mail', 'yopmail', 'maildrop', 'getairmail'
-    ];
-    
-    if (tempKeywords.some(keyword => domain.includes(keyword))) {
-      return true;
-    }
-
-    // 5. Check for random character patterns (e.g., "fxavaj", "trbvm")
-    // If domain has 3+ consecutive consonants, likely random
-    const consecutiveConsonants = /[bcdfghjklmnpqrstvwxyz]{3,}/i;
-    if (consecutiveConsonants.test(mainDomain)) {
-      return true;
-    }
-
-    // 6. Very short total domain length (domain + TLD < 8 chars total is suspicious)
-    if (domain.length < 8) {
-      return true;
-    }
-
-    return false;
-  };
 
   useEffect(() => {
     // Initialize session and load saved email
@@ -82,15 +26,7 @@ const handleSubmit = async (e: React.FormEvent) => {
   e.preventDefault();
   if (!email) return;
 
-  // Check if email matches suspicious patterns
-  if (isSuspiciousEmail(email)) {
-    setStatus('error');
-    setErrorMessage('Please use a permanent email address. Temporary or suspicious email addresses are not allowed.');
-    return;
-  }
-
   setStatus('loading');
-  setErrorMessage('');
   console.log('[WaitingList] ===== SUBMISSION START =====');
   console.log('[WaitingList] Email to submit:', email);
   console.log('[WaitingList] Supabase URL configured:', !!import.meta.env.VITE_SUPABASE_URL);
@@ -198,17 +134,10 @@ const handleSubmit = async (e: React.FormEvent) => {
                 type="email" 
                 required
                 value={email}
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                  setStatus('idle'); // Reset error state when user types
-                  setErrorMessage('');
-                }}
+                onChange={(e) => setEmail(e.target.value)}
                 placeholder="Enter your email address" 
-                className={`w-full bg-[#121212] border ${status === 'error' ? 'border-red-500' : 'border-white/10'} text-[#F2F2F2] rounded-full px-8 py-5 outline-none focus:border-[#1DB954] transition-all text-lg shadow-2xl`}
+                className="w-full bg-[#121212] border border-white/10 text-[#F2F2F2] rounded-full px-8 py-5 outline-none focus:border-[#1DB954] transition-all text-lg shadow-2xl"
               />
-              {status === 'error' && errorMessage && (
-                <p className="text-red-500 text-sm mt-3 text-left px-2">{errorMessage}</p>
-              )}
               <button 
                 disabled={status === 'loading'}
                 className="mt-6 w-full bg-[#1DB954] hover:bg-[#1DB954]/90 disabled:opacity-50 text-white font-black py-5 rounded-full text-lg shadow-xl shadow-[#1DB954]/20 transition-all flex items-center justify-center gap-2 group"
