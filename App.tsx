@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-route
 import HomePage from './components/HomePage';
 import PrivacyPolicyPage from './components/PrivacyPolicy';
 import TermsOfServicePage from './components/TermsOfService';
+import UpdatesPage from './components/Updates';
 
 const ScrollToTop = () => {
   const { pathname } = useLocation();
@@ -23,6 +24,7 @@ const App: React.FC = () => {
         <Route path="/" element={<HomePage />} />
         <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
         <Route path="/terms-of-service" element={<TermsOfServicePage />} />
+        <Route path="/updates" element={<UpdatesPage />} />
       </Routes>
     </Router>
   );

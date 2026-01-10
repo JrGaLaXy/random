@@ -1,5 +1,6 @@
 
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Piano, Menu, X, MessageCircle, ExternalLink } from 'lucide-react';
 
 const Navbar: React.FC = () => {
@@ -10,6 +11,7 @@ const Navbar: React.FC = () => {
     { name: 'Game Modes', href: '#modes' },
     { name: 'Community', href: '#leaderboard' },
     { name: 'About', href: '#about' },
+    { name: 'Updates', href: '/updates', isRoute: true },
   ];
 
   const handleNavClick = () => {
@@ -54,13 +56,23 @@ const Navbar: React.FC = () => {
         {/* Desktop Navigation */}
         <div className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => (
-            <a 
-              key={link.name}
-              href={link.href}
-              className="text-sm font-medium text-[#F2F2F2]/60 hover:text-[#1DB954] transition-colors"
-            >
-              {link.name}
-            </a>
+            link.isRoute ? (
+              <Link 
+                key={link.name}
+                to={link.href}
+                className="text-sm font-medium text-[#F2F2F2]/60 hover:text-[#1DB954] transition-colors"
+              >
+                {link.name}
+              </Link>
+            ) : (
+              <a 
+                key={link.name}
+                href={link.href}
+                className="text-sm font-medium text-[#F2F2F2]/60 hover:text-[#1DB954] transition-colors"
+              >
+                {link.name}
+              </a>
+            )
           ))}
           
           <div className="h-6 w-[1px] bg-white/10 mx-2" />
@@ -90,14 +102,25 @@ const Navbar: React.FC = () => {
       >
         <div className="px-6 py-8 flex flex-col gap-6">
           {navLinks.map((link) => (
-            <a 
-              key={link.name}
-              href={link.href}
-              onClick={handleNavClick}
-              className="text-lg font-bold text-[#F2F2F2]/80 hover:text-[#1DB954]"
-            >
-              {link.name}
-            </a>
+            link.isRoute ? (
+              <Link 
+                key={link.name}
+                to={link.href}
+                onClick={handleNavClick}
+                className="text-lg font-bold text-[#F2F2F2]/80 hover:text-[#1DB954]"
+              >
+                {link.name}
+              </Link>
+            ) : (
+              <a 
+                key={link.name}
+                href={link.href}
+                onClick={handleNavClick}
+                className="text-lg font-bold text-[#F2F2F2]/80 hover:text-[#1DB954]"
+              >
+                {link.name}
+              </a>
+            )
           ))}
           
           <div className="h-[1px] w-full bg-white/5 my-2" />
