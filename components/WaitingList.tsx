@@ -8,8 +8,18 @@ import { supabase } from '../utils/supabaseClient';
 
 const WaitingList: React.FC = () => {
   const [email, setEmail] = useState('');
-  const [status, setStatus] = useState<'idle' | 'loading' | 'success'>('idle');
+  const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [savedEmail, setSavedEmail] = useState<string | undefined>();
+  const [errorMessage, setErrorMessage] = useState('');
+
+  // Common disposable email domains
+  const disposableDomains = [
+    '10minutemail.com', 'guerrillamail.com', 'mailinator.com', 'tempmail.com',
+    'throwaway.email', 'getnada.com', 'maildrop.cc', 'temp-mail.org',
+    'fakeinbox.com', 'trashmail.com', 'yopmail.com', 'disposablemail.com',
+    'sharklasers.com', 'grr.la', 'guerrillamailblock.com', 'pokemail.net',
+    'spam4.me', 'emailondeck.com', 'mintemail.com', 'mytemp.email'
+  ];
 
   useEffect(() => {
     // Initialize session and load saved email
@@ -26,7 +36,16 @@ const handleSubmit = async (e: React.FormEvent) => {
   e.preventDefault();
   if (!email) return;
 
+  // Check if email is from a disposable domain
+  const emailDomain = email.split('@')[1]?.toLowerCase();
+  if (emailDomain && disposableDomains.includes(emailDomain)) {
+    setStatus('error');
+    setErrorMessage('Please use a permanent email address. Temporary emails are not allowed.');
+    return;
+  }
+
   setStatus('loading');
+  setErrorMessage('');
   console.log('[WaitingList] ===== SUBMISSION START =====');
   console.log('[WaitingList] Email to submit:', email);
   console.log('[WaitingList] Supabase URL configured:', !!import.meta.env.VITE_SUPABASE_URL);
@@ -134,10 +153,17 @@ const handleSubmit = async (e: React.FormEvent) => {
                 type="email" 
                 required
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => {
+                  setEmail(e.target.value);
+                  setStatus('idle'); // Reset error state when user types
+                  setErrorMessage('');
+                }}
                 placeholder="Enter your email address" 
-                className="w-full bg-[#121212] border border-white/10 text-[#F2F2F2] rounded-full px-8 py-5 outline-none focus:border-[#1DB954] transition-all text-lg shadow-2xl"
+                className={`w-full bg-[#121212] border ${status === 'error' ? 'border-red-500' : 'border-white/10'} text-[#F2F2F2] rounded-full px-8 py-5 outline-none focus:border-[#1DB954] transition-all text-lg shadow-2xl`}
               />
+              {status === 'error' && errorMessage && (
+                <p className="text-red-500 text-sm mt-3 text-left px-2">{errorMessage}</p>
+              )}
               <button 
                 disabled={status === 'loading'}
                 className="mt-6 w-full bg-[#1DB954] hover:bg-[#1DB954]/90 disabled:opacity-50 text-white font-black py-5 rounded-full text-lg shadow-xl shadow-[#1DB954]/20 transition-all flex items-center justify-center gap-2 group"
