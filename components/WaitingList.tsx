@@ -14,11 +14,21 @@ const WaitingList: React.FC = () => {
 
   // Common disposable email domains
   const disposableDomains = [
-    '10minutemail.com', 'guerrillamail.com', 'mailinator.com', 'tempmail.com',
-    'throwaway.email', 'getnada.com', 'maildrop.cc', 'temp-mail.org',
+    '10minutemail.com', '10minutemail.net', '10minutemail.org', '10minemail.com',
+    '10minutesemail.com', '20minutemail.com', '30minutemail.com',
+    'guerrillamail.com', 'guerrillamail.net', 'guerrillamail.org',
+    'mailinator.com', 'mailinator.net', 'mailinator2.com',
+    'tempmail.com', 'temp-mail.org', 'tempmail.net',
+    'throwaway.email', 'getnada.com', 'maildrop.cc',
     'fakeinbox.com', 'trashmail.com', 'yopmail.com', 'disposablemail.com',
     'sharklasers.com', 'grr.la', 'guerrillamailblock.com', 'pokemail.net',
-    'spam4.me', 'emailondeck.com', 'mintemail.com', 'mytemp.email'
+    'spam4.me', 'emailondeck.com', 'mintemail.com', 'mytemp.email',
+    'fxavaj.com', 'doanart.com', 'zetmail.com', 'inboxbear.com',
+    'mohmal.com', 'trbvm.com', 'emailfake.com', 'mfsa.ru',
+    'tmails.net', 'anonaddy.me', 'bugfoo.com', 'dispostable.com',
+    'spambox.us', 'tempinbox.com', 'throwawayemail.com', 'getairmail.com',
+    'harakirimail.com', 'mailin8r.com', 'mailnesia.com', 'mailsac.com',
+    'trashmail.de', 'wegwerfmail.de', 'spambog.com', 'incognitomail.org'
   ];
 
   useEffect(() => {
