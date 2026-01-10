@@ -1,10 +1,11 @@
 
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Piano, Menu, X, MessageCircle, ExternalLink } from 'lucide-react';
 
 const Navbar: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const location = useLocation();
 
   const navLinks = [
     { name: 'Features', href: '#features' },
@@ -19,8 +20,28 @@ const Navbar: React.FC = () => {
   };
 
   const handleLogoClick = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (location.pathname === '/') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
     setIsMenuOpen(false);
+  };
+
+  const handleHashClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+    
+    const elementId = href.substring(1);
+    
+    if (location.pathname === '/') {
+      // If on home page, scroll directly to section
+      const element = document.getElementById(elementId);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+        setIsMenuOpen(false);
+      }
+    } else {
+      // If not on home page, navigate to home with hash
+      window.location.href = '/#' + elementId;
+    }
   };
 
   return (
@@ -67,7 +88,8 @@ const Navbar: React.FC = () => {
             ) : (
               <a 
                 key={link.name}
-                href={link.href}
+                href={location.pathname === '/' ? link.href : '/'}
+                onClick={(e) => handleHashClick(e, link.href)}
                 className="text-sm font-medium text-[#F2F2F2]/60 hover:text-[#1DB954] transition-colors"
               >
                 {link.name}
@@ -114,8 +136,8 @@ const Navbar: React.FC = () => {
             ) : (
               <a 
                 key={link.name}
-                href={link.href}
-                onClick={handleNavClick}
+                href={location.pathname === '/' ? link.href : '/'}
+                onClick={(e) => handleHashClick(e, link.href)}
                 className="text-lg font-bold text-[#F2F2F2]/80 hover:text-[#1DB954]"
               >
                 {link.name}

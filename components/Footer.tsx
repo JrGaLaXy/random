@@ -58,6 +58,7 @@ const Footer: React.FC = () => {
             <ul className="space-y-4">
               <li><Link to="/privacy-policy" className="text-sm text-[#F2F2F2]/40 hover:text-[#1DB954] transition-colors">Privacy Policy</Link></li>
               <li><Link to="/terms-of-service" className="text-sm text-[#F2F2F2]/40 hover:text-[#1DB954] transition-colors">Terms of Service</Link></li>
+              <li><Link to="/updates" className="text-sm text-[#F2F2F2]/40 hover:text-[#1DB954] transition-colors">Updates</Link></li>
             </ul>
           </div>
         </div>
